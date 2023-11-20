@@ -1,5 +1,6 @@
 package com.user.userinfoservice.controller;
 
+import com.user.usercommon.model.DeleteUser;
 import com.user.usercommon.model.Email;
 import com.user.usercommon.web.RestResult;
 import com.user.usercommon.web.ResultCode;
@@ -50,12 +51,11 @@ public class UserController {
     })
     @PostMapping("delete")
     @ResponseBody
-    public RestResult<User> deleteUserInfoByIds(@RequestBody Map<String,String> map) {
+    public RestResult<User> deleteUserInfoByIds(@RequestBody DeleteUser user) {
         try {
-            if(StringUtils.isNotBlank(map.get("ids")))
+            if(StringUtils.isNotBlank(user.getIds()))
             {
-                String ids=map.get("ids");
-
+                String ids=user.getIds();
                String[]  idsArray=ids.split(",");
                 List<Integer> list= new ArrayList<>();
                 for (int i = 0; i <idsArray.length ; i++) {
@@ -100,7 +100,6 @@ public class UserController {
     @ResponseBody
     public RestResult<User> sendEmail(@RequestBody Email email)
     {
-
         String address=email.getAddress();
         String title=email.getTitle();
         String content=email.getContent();

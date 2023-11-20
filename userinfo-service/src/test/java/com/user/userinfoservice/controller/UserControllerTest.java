@@ -52,4 +52,21 @@ public class UserControllerTest {
         Assert.assertEquals("mmm", user.getName());
     }
 
+    @Test
+    public void testInsert() throws Exception {
+        // get /user/get/17
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/user/get/{id}", 17))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        // get response user
+        String responseBody = mvcResult.getResponse().getContentAsString();
+
+        RestResult result = new ObjectMapper().readValue(responseBody, RestResult.class);
+        System.out.println(result.getData().toString());
+        User user = new ObjectMapper().convertValue(result.getData(),User.class);
+        // check  result
+        Assert.assertEquals(17L, user.getId().longValue());
+        Assert.assertEquals("mmm", user.getName());
+    }
 }

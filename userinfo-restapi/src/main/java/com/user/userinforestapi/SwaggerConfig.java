@@ -1,4 +1,4 @@
-package com.user.userinfoservice;
+package com.user.userinforestapi;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.user.userinfoservice.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.user.userinforestapi.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
@@ -26,7 +26,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("USERSERVICE API documentation ")
+                .title("REST API documentation ")
                 .description("documentation")
                 .version("1.0.0")
                 .build();

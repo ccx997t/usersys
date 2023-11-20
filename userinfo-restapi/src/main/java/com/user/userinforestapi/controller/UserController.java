@@ -1,6 +1,7 @@
 package com.user.userinforestapi.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.user.usercommon.model.DeleteUser;
 import com.user.usercommon.model.Email;
 import com.user.usercommon.model.User;
 import com.user.usercommon.web.RestResult;
@@ -8,6 +9,7 @@ import com.user.usercommon.web.ResultCode;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.omg.PortableInterceptor.SUCCESSFUL;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -28,10 +32,11 @@ public class UserController {
     private final String title="usersys-welcome email";
     private final String content="you are welcome";
 
+
     @ApiOperation("get userinfo by userid")
     @ApiImplicitParam(name = "id",value = "userid")
     @GetMapping("get/{id}")
-    public  RestResult<Map> getUserById(@PathVariable Long id) {
+    public  RestResult<User> getUserById(@PathVariable Long id) {
         try
         {
             String res=restTemplate.getForEntity("http://USERSERVICE/user/get/"+id,String.class).getBody();
@@ -58,7 +63,7 @@ public class UserController {
             Boolean issame = new ObjectMapper().convertValue(checkres.getData(),Boolean.class);
             if(issame==true)
             {
-                return RestResult.successNoData(ResultCode.PARAM_IS_INVALID);
+                return RestResult.successNoData(ResultCode.USER_NAME_EXISTS);
             }
 
             if(Strings.isNotBlank(user.getPassword()))
@@ -93,8 +98,48 @@ public class UserController {
             return RestResult.fail(ResultCode.Server_ERROR);
         }
     }
+
+    @ApiOperation("delete one or many userinfo by userids")
+    @PostMapping("delete")
+    @ResponseBody
+    public RestResult<Object> deleteUserInfoByIds(@RequestBody DeleteUser user) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
+            headers.setContentType(type);
+            HttpEntity httpEntity = new HttpEntity<>(user, headers);
+            RestResult res=restTemplate.postForObject("http://USERSERVICE/user/delete",httpEntity, RestResult.class);
+            return res;
+
+        } catch (Exception e) {
+            return RestResult.fail(ResultCode.Server_ERROR);
+        }
+    }
+
+    @ApiOperation("update user info")
+    @PostMapping("update")
+    @ResponseBody
+    public RestResult<Object> update(@RequestBody User user) {
+        try {
+            if(Strings.isNotBlank(user.getPassword()))
+            {
+                String md5Password = DigestUtils.md5DigestAsHex(user.getPassword().getBytes());
+                user.setPassword(md5Password);
+            }
+            HttpHeaders headers = new HttpHeaders();
+            MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
+            headers.setContentType(type);
+            HttpEntity httpEntity = new HttpEntity<>(user, headers);
+            RestResult res=restTemplate.postForObject("http://USERSERVICE/user/update",httpEntity, RestResult.class);
+            return res;
+
+        } catch (Exception e) {
+            return RestResult.fail(ResultCode.Server_ERROR);
+        }
+    }
+
     @PostMapping("sendEmail")
-    public  RestResult<Map> sendEmail(@RequestBody Email email) {
+    public  RestResult<Object> sendEmail(@RequestBody Email email) {
         try
         {
             HttpHeaders headers = new HttpHeaders();

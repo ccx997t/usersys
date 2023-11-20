@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -52,5 +53,38 @@ public class UserControllerTest {
         Assert.assertEquals(1L, user.getId().longValue());
         Assert.assertEquals("mmmccccc", user.getName());
     }
+    @Test
+    public void testInsert() throws Exception {
+        // post /user/insert
+        String userjson="{\"name\":\"mmmcx\"}";
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/user/insert").content( userjson).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
 
+        // get response user
+        String responseBody = mvcResult.getResponse().getContentAsString();
+
+        RestResult result = new ObjectMapper().readValue(responseBody, RestResult.class);
+
+        User user = new ObjectMapper().convertValue(result.getData(),User.class);
+        // check  result
+        // check  result
+        Assert.assertEquals(200, result.getCode());
+    }
+    @Test
+    public void testUpdate() throws Exception {
+        // post /user/update
+        String userjson="{\"id\":\"1\",\"name\":\"x\"}";
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/user/update").content(userjson).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+        // get response user
+        String responseBody = mvcResult.getResponse().getContentAsString();
+
+        RestResult result = new ObjectMapper().readValue(responseBody, RestResult.class);
+
+        // check  result
+        Assert.assertEquals(200, result.getCode());
+
+    }
 }
