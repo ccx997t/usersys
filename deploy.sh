@@ -1,4 +1,5 @@
 #!/bin/sh
+
 cd  eureka-server
 echo $PWD
 echo 'build eureka-server'

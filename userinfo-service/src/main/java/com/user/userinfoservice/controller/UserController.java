@@ -46,9 +46,6 @@ public class UserController {
 
 
     @ApiOperation("delete one or many userinfo by userids, such as 1,2,3,  use separator,")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "ids", value = "user ids", paramType = "query", dataType = "string")
-    })
     @PostMapping("delete")
     @ResponseBody
     public RestResult<User> deleteUserInfoByIds(@RequestBody DeleteUser user) {
