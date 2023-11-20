@@ -19,14 +19,14 @@
 * eureka-server : service discovery and registration
 * userinfo-common: used to store tool classes and other modules common code.
 * userinfo-service: service provider, it provides  apis to manipulate the database and send email.
-* userinfo-userinfo-restapi: service consumer, it can call the userinfo-service api
+* userinfo-restapi: service consumer, it can call the userinfo-service api
      
    
 ##  Deployment
 
 * create database table ,use db.sql
 * use jdk  and maven , generate  three jars for the three modules
-* excute deploy.sh,  it can build three docker images and run docker three containers.
+* excute deploy.sh.  It can build three docker images and run three docker containers,such as eureka-server,userinfo-service,userinfo-restapi.
    
    ```bash
     sh deploy.sh
