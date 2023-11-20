@@ -14,3 +14,20 @@
    ### Mysql
    Install Mysql. 
 
+## This project has four modules
+
+* eureka-server : service discovery and registration
+* userinfo-common: used to store tool classes and other modules common code.
+* userinfo-service: service provider, it provides  apis to manipulate the database and send email.
+* userinfo-userinfo-restapi: service consumer, it can call the userinfo-service api
+     
+   
+##  Deployment
+
+* create database table ,use db.sql
+* use jdk  and maven , generate  three jars for the three modules
+* excute deploy.sh,  it can build three docker images and run docker three containers.
+   
+   ```bash
+    sh deploy.sh
+   ```
