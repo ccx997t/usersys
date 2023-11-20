@@ -31,3 +31,10 @@
    ```bash
     sh deploy.sh
    ```
+
+##  REST API documentation 
+
+* use swagger and annotation
+* http://localhost:9090/swagger-ui/index.html
+* http://localhost:8080/swagger-ui/index.html
+   
