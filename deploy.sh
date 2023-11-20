@@ -1,5 +1,4 @@
 #!/bin/sh
-
 cd  eureka-server
 echo $PWD
 echo 'build eureka-server'
@@ -7,12 +6,6 @@ docker build -t usersys/eureka-server  -f Dockerfile .
 docker ps | grep "eureka-server" | awk '{print $1 }'|xargs docker stop
 echo 'run eureka-server'
 docker run -d -p 8761:8761 usersys/eureka-server
-
-cd ../userinfo-service
-echo $PWD
-echo 'build userinfo-service'
-docker build -t usersys/userinfo-service  -f Dockerfile .
-docker ps | grep "userinfo-service" | awk '{print $1 }'|xargs docker stop
 
 
 cd ../userinfo-service
