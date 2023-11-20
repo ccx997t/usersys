@@ -10,8 +10,10 @@ docker run -d -p 8761:8761 usersys/eureka-server
 
 cd ../userinfo-service
 echo $PWD
+echo 'build userinfo-service'
 docker build -t usersys/userinfo-service  -f Dockerfile .
 docker ps | grep "userinfo-service" | awk '{print $1 }'|xargs docker stop
+echo 'run userinfo-service'
 docker run -d -p 9090:9090 usersys/userinfo-service
 
 
