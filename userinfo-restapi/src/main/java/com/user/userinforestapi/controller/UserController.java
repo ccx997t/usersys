@@ -31,7 +31,7 @@ public class UserController {
     RestTemplate restTemplate;
     private final String title="usersys-welcome email";
     private final String content="you are welcome";
-
+    private final String emailregex="^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$";
 
     @ApiOperation("get userinfo by userid")
     @ApiImplicitParam(name = "id",value = "userid")
@@ -54,6 +54,10 @@ public class UserController {
     public  RestResult<Object> addNewUser(@RequestBody User user) {
         try
         {
+           if (!checkEmail(user.getEmail()))
+            {
+                return RestResult.successNoData(ResultCode.PARAM_IS_INVALID);
+            }
             //check the user name or email
             HttpHeaders headers = new HttpHeaders();
             MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
@@ -98,7 +102,14 @@ public class UserController {
             return RestResult.fail(ResultCode.Server_ERROR);
         }
     }
+    public  boolean checkEmail(String email){
+        if(StringUtils.isNotBlank(email))
+        {
+            return email.matches(emailregex);
+        }
+        return false;
 
+    }
     @ApiOperation("delete one or many userinfo by userids")
     @PostMapping("delete")
     @ResponseBody
