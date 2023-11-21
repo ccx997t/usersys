@@ -25,7 +25,7 @@
 ##  Deployment
 
 * create database table ,use db.sql
-* use jdk  and maven , generate  three jars for the three modules
+* use jdk bin and maven , generate  three jars for the three modules in target
 * excute deploy.sh.  It can build three docker images and run three docker containers,such as eureka-server,userinfo-service,userinfo-restapi.
    
    ```bash
