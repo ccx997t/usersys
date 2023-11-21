@@ -35,8 +35,8 @@
 ##  REST API documentation 
 
 * use swagger and annotation
-* http://localhost:9090/swagger-ui/index.html
-* http://localhost:8080/swagger-ui/index.html
+* userinfo-service:http://localhost:9090/swagger-ui/index.html
+* userinfo-restapi:http://localhost:8080/swagger-ui/index.html
   
 ##  	testing
 *  the use of mock in rest api testing  
