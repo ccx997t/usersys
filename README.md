@@ -38,5 +38,5 @@
 * userinfo-service:http://localhost:9090/swagger-ui/index.html
 * userinfo-restapi:http://localhost:8080/swagger-ui/index.html
   
-##  	testing
+##  Testing
 *  the use of mock in rest api testing  
